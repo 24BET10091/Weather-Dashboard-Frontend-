@@ -363,3 +363,158 @@ hr {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+.card,
+.forecast-item,
+.hourly-forecast .card,
+.weather-left .card,
+.weather-right .card,
+.air-indices .item,
+.sunrise-sunset .item,
+.card-item {
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover,
+.weather-left .card:hover,
+.weather-right .card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(67, 130, 223, 0.45);
+    border: 1px solid #4382DF;
+    background: linear-gradient(
+        135deg,
+        rgba(67,130,223,0.12),
+        rgba(67,130,223,0.03)
+    );
+}
+
+.forecast-item:hover {
+    transform: scale(1.08);
+    background: rgba(67,130,223,0.12);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 0 20px rgba(67,130,223,0.5);
+}
+
+.hourly-forecast .card:hover {
+    transform: translateY(-10px) scale(1.08);
+    box-shadow: 0 0 20px rgba(67,130,223,0.6);
+    border: 1px solid #4382DF;
+}
+
+.air-indices .item:hover {
+    transform: scale(1.12);
+    background: rgba(67,130,223,0.12);
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 0 20px rgba(67,130,223,0.6);
+}
+
+.sunrise-sunset .item:hover {
+    transform: translateY(-8px);
+    background: rgba(67,130,223,0.12);
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 0 20px rgba(67,130,223,0.6);
+}
+
+.card-item:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 15px rgba(67,130,223,0.5);
+}
+
+.weather-icon img {
+    transition: all 0.5s ease;
+}
+
+.current-weather:hover .weather-icon img {
+    transform: rotate(12deg) scale(1.15);
+    filter: drop-shadow(0 0 12px #4382DF);
+}
+
+.forecast-item img,
+.hourly-forecast img {
+    transition: all 0.4s ease;
+}
+
+.forecast-item:hover img,
+.hourly-forecast .card:hover img {
+    transform: scale(1.25) rotate(10deg);
+}
+
+.card h2,
+.card p,
+.card i {
+    transition: all 0.4s ease;
+}
+
+.card:hover h2 {
+    color: #4382DF;
+    text-shadow: 0 0 12px #4382DF;
+}
+
+.card:hover i {
+    color: #4382DF;
+    transform: scale(1.15);
+}
+
+.current-weather {
+    transition: all 0.4s ease;
+}
+
+.current-weather:hover {
+    transform: scale(1.03);
+}
+
+.air-index {
+    transition: all 0.4s ease;
+}
+
+.air-index:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 15px rgba(67,130,223,0.8);
+}
+
+.weather-right h2,
+.weather-left h2 {
+    transition: all 0.4s ease;
+}
+
+.weather-right h2:hover,
+.weather-left h2:hover {
+    color: #4382DF;
+    text-shadow: 0 0 12px #4382DF;
+}
+
+.header button {
+    transition: all 0.4s ease;
+}
+
+.header button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(67,130,223,0.5);
+}
+
+#city_input {
+    transition: all 0.4s ease;
+}
+
+#city_input:focus {
+    transform: scale(1.02);
+    border: 1px solid #4382DF;
+    box-shadow: 0 0 15px rgba(67,130,223,0.8);
+}
+
+.weather-data .card:hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 15px;
+    pointer-events: none;
+    box-shadow: inset 0 0 25px rgba(67,130,223,0.2);
+}
