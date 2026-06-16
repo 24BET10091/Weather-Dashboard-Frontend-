@@ -1,132 +1,125 @@
 let cityInput = document.getElementById('city_input'),
-    searchBtn = document.getElementById('searchBtn'),
-    locationBtn = document.getElementById('locationBtn'),
-    api_key = 'b90a3e609e0b429d20ea7c58fb222481',
-    currentWeatherCard = document.querySelectorAll('.weather-left .card')[0],
-    fiveDaysForecastCard = document.querySelector('.day-forecast'),
-    aqiCard = document.querySelectorAll('.highlights .card')[0],
-    sunriseCard = document.querySelectorAll('.highlights .card')[1],
-    humidityVal = document.getElementById('humidityVal'),
-    pressureVal = document.getElementById('pressureVal'),
-    visibilityVal = document.getElementById('visibilityVal'),
-    windSpeedVal = document.getElementById('windSpeedVal'),
-    feelsVal = document.getElementById('feelsVal'),
-    hourlyForecastCard = document.querySelector('.hourly-forecast'),
-    aqiList = ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor'];
-
+searchBtn = document.getElementById('searchBtn'),
+locationBtn = document.getElementById('locationBtn'),
+api_key = 'b90a3e609e0b429d20ea7c58fb222481',
+currentWeatherCard = document.querySelectorAll('.weather-left .card')[0],
+fiveDaysForecastCard = document.querySelector('.day-forecast'),
+aqiCard = document.querySelectorAll('.highlights .card')[0],
+sunriseCard = document.querySelectorAll('.highlights .card')[1],
+humidityVal = document.getElementById('humidityVal'),
+pressureVal = document.getElementById('pressureVal'),
+visibilityVal = document.getElementById('visibilityVal'),
+windSpeedVal = document.getElementById('windSpeedVal'),
+feelsVal = document.getElementById('feelsVal'),
+hourlyForecastCard = document.querySelector(' .hourly-forecast'),
+aqiList = ['Good', 'Fair', 'Moderate', 'Poor', 'Very Poor'];
 function fetchJson(url) {
     return fetch(url)
-        .then(async res => {
-            let data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(data.message || 'Request failed');
-            }
-
-            return data;
-        });
+    .then(async res => {
+        let data = await res.json();
+        if(!res.ok) {
+            throw new Error(data.message || 'Request failed');
+        }
+        return data;
+    });
 }
-
 function getCityCoordinates() {
     let cityName = cityInput.value.trim();
     cityInput.value = '';
-
-    if (!cityName) return;
-
+    if(!cityName) return;
     let GEOCODING_API_URL = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(cityName)}&limit=1&appid=${api_key}`;
-
     fetchJson(GEOCODING_API_URL)
-        .then(data => {
-            if (!data.length) {
-                alert('City not found');
-                return;
-            }
+    .then(data => {
+        if(!data.length) {
+            alert('City not found');
+            return;
+        }
+        let {name, lat, lon, country, state} = data[0];
+        getWeatherDetails(name, lat, lon, country, state || '');
+    })
+    .catch(error => {
+        console.log(error.message);
+        alert('Failed to fetch city');
+    });
 
-            let { name, lat, lon, country, state } = data[0];
-            getWeatherDetails(name, lat, lon, country, state || '');
-        })
-        .catch(error => {
-            console.log(error.message);
-            alert('Failed to fetch city');
-        });
 }
-
-function getWeatherDetails(name, lat, lon, country, state) {
-    let WEATHER_API_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}&units=metric`;
+function getWeatherDetails(name,lat, lon, country, state) {
+      let WEATHER_API_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}&units=metric`;
     let FORECAST_API_URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api_key}&units=metric`;
     let AIR_POLLUTION_API_URL = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${api_key}`;
-
     Promise.all([
         fetchJson(WEATHER_API_URL),
         fetchJson(FORECAST_API_URL),
         fetchJson(AIR_POLLUTION_API_URL)
+
     ])
-        .then(([weatherData, forecastData, airData]) => {
-            let weather = weatherData.weather[0];
-            let air = airData.list[0];
-            let components = air.components;
+    .then(([weatherData, forecastData, airData]) => {
+        let weather = weatherData.weather[0];
+        let air = airData.list[0];
+        let components = air.components;
+        currentWeatherCard.innerHTML = `
+        <div class="current-weather">
+        <div class="details">
+         <p>Now</p>
+         <h2>${Math.round(weatherData.main.temp)}&deg;C</h2>
+         <p>${weather.description}</p>
+         </div>
+         <div class="weather-icon">
+         <img src="https://openweathermap.org/img/wn/${weather.icon}@2x.png" alt="">
+         </div>
+         </div>
+         <hr>
+         <div class="card-footer">
+         <p><i class="fa-light fa-calendar"></i> ${moment().format('dddd, D MMM YYYY')}</p>
+         <p><i class="fa-light fa-location-dot"></i> ${name}, ${country}</p>
+         </div>
+         `;
+         aqiCard.innerHTML = `
+         <div class="card-head">
+         <p>Air Quality Index</p>
+         <p class="air-index aqi-${air.main.aqi}">${aqiList[air.main.aqi - 1]}</p>
+         </div>
+         <div class="air-indices">
+         <i class="fa-solid fa-wind fa-3x"></i>
+         <div class="item"><p>PM2.5</p><h2>${components.pm2_5}</h2></div>
+         <div class="item"><p>PM10</p><h2>${components.pm10}</h2></div>
+         <div class="item"><p>SO2</p><h2>${components.so2}</h2></div>
+         <div class="item"><p>CO</p><h2>${components.co}</h2></div>
+         <div class="item"><p>NO</p><h2>${components.no}</h2></div>
+         <div class="item"><p>NO2</p><h2>${components.no2}</h2></div>
+         <div class="item"><p>NH3</p><h2>${components.nh3}</h2></div>
+         <div class="item"><p>O3</p><h2>${components.o3}</h2></div>
+         </div>
+         `;
+         
 
-            currentWeatherCard.innerHTML = `
-                <div class="current-weather">
-                    <div class="details">
-                        <p>Now</p>
-                        <h2>${Math.round(weatherData.main.temp)}&deg;C</h2>
-                        <p>${weather.description}</p>
-                    </div>
-                    <div class="weather-icon">
-                        <img src="https://openweathermap.org/img/wn/${weather.icon}@2x.png" alt="">
-                    </div>
-                </div>
-                <hr>
-                <div class="card-footer">
-                    <p><i class="fa-light fa-calendar"></i> ${moment().format('dddd, D MMM YYYY')}</p>
-                    <p><i class="fa-light fa-location-dot"></i> ${name}, ${country}</p>
-                </div>
-            `;
+           sunriseCard.innerHTML = `
+    <div class="card-head">
+        <p>Sunrise & Sunset</p>
+    </div>
 
-            aqiCard.innerHTML = `
-                <div class="card-head">
-                    <p>Air Quality Index</p>
-                    <p class="air-index aqi-${air.main.aqi}">${aqiList[air.main.aqi - 1]}</p>
-                </div>
-                <div class="air-indices">
-                    <i class="fa regular fa-wind fa-3x"></i>
-                    <div class="item"><p>PM2.5</p><h2>${components.pm2_5}</h2></div>
-                    <div class="item"><p>PM10</p><h2>${components.pm10}</h2></div>
-                    <div class="item"><p>SO2</p><h2>${components.so2}</h2></div>
-                    <div class="item"><p>CO</p><h2>${components.co}</h2></div>
-                    <div class="item"><p>NO</p><h2>${components.no}</h2></div>
-                    <div class="item"><p>NO2</p><h2>${components.no2}</h2></div>
-                    <div class="item"><p>NH3</p><h2>${components.nh3}</h2></div>
-                    <div class="item"><p>O3</p><h2>${components.o3}</h2></div>
-                </div>
-            `;
+    <div class="sunrise-sunset">
+        <div class="item">
+            <div class="icon">
+                <i class="fa-solid fa-sun fa-3x"></i>
+            </div>
+            <div>
+                <p>Sunrise</p>
+                <h2>${moment.utc((weatherData.sys.sunrise + weatherData.timezone) * 1000).format('hh:mm A')}</h2>
+            </div>
+        </div>
 
-            sunriseCard.innerHTML = `
-                <div class="card-head">
-                    <p>Sunrise & Sunset</p>
-                </div>
-                <div class="sunrise-sunset">
-                    <div class="item">
-                        <div class="icon">
-                            <i class="fa-light fa-sunrise fa-4x"></i>
-                        </div>
-                        <div>
-                            <p>Sunrise</p>
-                            <h2>${moment.unix(weatherData.sys.sunrise).format('hh:mm A')}</h2>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="icon">
-                            <i class="fa-light fa-sunset fa-4x"></i>
-                        </div>
-                        <div>
-                            <p>Sunset</p>
-                            <h2>${moment.unix(weatherData.sys.sunset).format('hh:mm A')}</h2>
-                        </div>
-                    </div>
-                </div>
-            `;
+        <div class="item">
+            <div class="icon">
+                <i class="fa-solid fa-cloud-sun fa-3x"></i>
+            </div>
+            <div>
+                <p>Sunset</p>
+                <h2>${moment.utc((weatherData.sys.sunset + weatherData.timezone) * 1000).format('hh:mm A')}</h2>
+            </div>
+        </div>
+    </div>
+`;
 
             humidityVal.innerHTML = `${weatherData.main.humidity}%`;
             pressureVal.innerHTML = `${weatherData.main.pressure} hPa`;
@@ -142,6 +135,7 @@ function getWeatherDetails(name, lat, lon, country, state) {
             alert('Failed to fetch weather');
         });
 }
+currentWeatherCard.innerHTML = '<h2>Loading...</h2>';
 
 function getForecast(data) {
     fiveDaysForecastCard.innerHTML = '';
