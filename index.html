@@ -10,6 +10,35 @@
   <link rel = "icon" href = "https://openweathermap.org/img/wn/01d.png">
 </head>
 <body>
+  <video autoplay muted loop id = "bg-video">
+    <source src = "12460328-hd_1080_1920_60fps.mp4" type = "video/mp4">
+  </video>
+  <nav class = "navbar">
+    <a href = "index.html">Dashboard</a>
+    <a href = "insights.html">Air Quality Insights</a>
+  </nav>
+  <div class = "weather-video">
+    <video  autoplay muted loop id = "bg-video">
+      <source src = "12460328-hd_1080_1920_60fps.mp4" type = "video/mp4">
+    </video>
+  </div>
+  <div class = "insights-container">
+    <h1>Air Quality Safety Guide</h1>
+    <div id = "aqi-guide" style = "margin-top: 20px;"></div>
+  </div>
+  <script>
+    const aqiAdvice = {
+      1: "Good : Air quality is satisfactory. Perfect for outdoor activities.",
+      2: "Fair : Acceptable, but sensitive individuals should be cautious.",
+      3: "Moderate : Sensitive groups may experience minor health effects.",
+      4: "Poor : General public may feel effects; sensitive groups should avoid exertion.",
+      5: "Very Poor : Health alert for everyone. Stay indoors" 
+    };
+    const container = document.getElementById('aqi-guide');
+    for(let i = 1; i <=5; i++) {
+      container.innerHTML = `<div class="card"><h3>Level ${i}</h3><p>${aqiAdvice[i]}</p></div>`;
+    }
+  </script>
   <div class = "container">
     <div class = "header">
       <h2>Weather</h2>
@@ -31,6 +60,7 @@
               <p>Now</p>
               <h2>___&deg;C</h2>
               <p>_______</p>
+          
             </div>
             <div class = "weather-icon">
               <img src = "https://openweathermap.org/img/wn/04d@2x.png"alt = "">
@@ -122,6 +152,10 @@
         <div class = "hourly-forecast"></div>
       </div>
     </div>
+  </div>
+  <div class = "card">
+    <h2>Recent Searches</h2>
+    <ul id = "historyList" style = "list-style: none ; padding: 10px;"></ul>
   </div>
   <script src = "https://momentjs.com/downloads/moment.min.js"></script>
   <script src = "app.js"></script>
