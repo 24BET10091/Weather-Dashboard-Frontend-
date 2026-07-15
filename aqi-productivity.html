@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AQI & Productivity</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <video autoplay muted loop id="bg-video">
+    <source src="12460328-hd_1080_1920_60fps.mp4" type="video/mp4">
+  </video>
+
+  <nav class="navbar">
+    <a href="index.html">Dashboard</a>
+    <a href="Air Quality Insights.html">Air Quality Insights</a>
+    <a href="indoor-vs-outdoor-aqi.html">Indoor vs Outdoor AQI</a>
+    <a href="aqi-productivity.html" class="active">AQI & Productivity</a>
+  </nav>
+
+  <section class="research-page">
+    <header class="research-header">
+      <p class="eyebrow">Research-backed view</p>
+      <h1>AQI and Productivity</h1>
+      <p>
+        Air pollution affects focus, reaction time, and comfort. Studies link elevated PM2.5 and poor AQI with reduced concentration,
+        lower work performance, and greater fatigue, especially during prolonged indoor exposure.
+      </p>
+    </header>
+
+    <div class="research-grid">
+      <article class="research-card">
+        <h2>Why productivity drops</h2>
+        <ul>
+          <li>High PM2.5 and ozone can trigger irritation that distracts users and lowers comfort.</li>
+          <li>Poor air quality can increase fatigue, headaches, and difficulty concentrating.</li>
+          <li>Schools and offices often see lower performance when AQI worsens during the day.</li>
+        </ul>
+      </article>
+
+      <article class="research-card">
+        <h2>What to do when AQI is poor</h2>
+        <ul>
+          <li>Move work or exercise indoors where filtration is available.</li>
+          <li>Schedule demanding tasks for periods with better air quality.</li>
+          <li>Use air purifiers and ventilate carefully when pollution is low outdoors.</li>
+        </ul>
+      </article>
+
+      <article class="research-card">
+        <h2>Why this dashboard helps</h2>
+        <p>
+          Live weather and AQI updates help users adjust plans in real time. People on laptops and phones can instantly see whether conditions are suitable for outdoor work, exercise, or study.
+        </p>
+      </article>
+
+      <article class="research-card">
+        <h2>Suggested habits</h2>
+        <ul>
+          <li>Check AQI before commuting or outdoor meetings.</li>
+          <li>Prefer indoor tasks when the AQI reaches unhealthy levels.</li>
+          <li>Use the live weather overlay to understand whether rain or storms are affecting travel.</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="research-card">
+      <h2>Live location weather</h2>
+      <p id="live-weather-snippet">Checking your current location for live weather and AQI updates…</p>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>

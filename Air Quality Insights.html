@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Air Quality Insights</title>
+  <link rel="stylesheet" href="Air Quality Insights.css">
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <video autoplay muted loop id="bg-video">
+    <source src="12460328-hd_1080_1920_60fps.mp4" type="video/mp4">
+  </video>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const aqiLevels = [
+      { level: 'Good', range: '0–50', color: 'good', description: 'Air quality is satisfactory and safe for most outdoor activities.' },
+      { level: 'Moderate', range: '51–100', color: 'moderate', description: 'Sensitive groups should reduce prolonged or heavy exertion outdoors.' },
+      { level: 'Unhealthy for Sensitive Groups', range: '101–150', color: 'sensitive', description: 'Children, seniors, and people with asthma should limit outdoor activity.' },
+      { level: 'Unhealthy', range: '151–200', color: 'unhealthy', description: 'Everyone may begin to experience health effects; stay indoors if possible.' },
+      { level: 'Very Unhealthy', range: '201–300', color: 'danger', description: 'Health warnings are likely; avoid outdoor exposure entirely.' }
+    ];
+
+    const pollutantCards = [
+      { name: 'PM2.5', detail: 'Fine particles that can reach deep into the lungs.' },
+      { name: 'PM10', detail: 'Coarse dust and particles that irritate the respiratory tract.' },
+      { name: 'NO2', detail: 'A gas linked to traffic and combustion that can trigger breathing problems.' },
+      { name: 'SO2', detail: 'Sulfur dioxide can worsen asthma and affect lung function.' },
+      { name: 'CO', detail: 'Carbon monoxide reduces oxygen delivery in the body.' },
+      { name: 'O3', detail: 'Ground-level ozone can inflame the airways during warmer months.' }
+    ];
+
+    const healthTips = [
+      'Check AQI before scheduling outdoor exercise or school activities.',
+      'Use a mask or limit outdoor time when the AQI reaches unhealthy levels.',
+      'Keep indoor air fresh by ventilating rooms and using air purifiers where possible.'
+    ];
+
+    function App() {
+      return (
+        <div className="aqi-shell">
+          <header className="hero-card">
+            <p className="eyebrow">Air Quality Insights</p>
+            <h1>Know the air around you before you step outside.</h1>
+            <p className="hero-copy">
+              The Air Quality Index converts complex air pollution data into a simple scale that helps residents,
+              commuters, and communities make healthier decisions every day.
+            </p>
+          </header>
+
+          <main className="aqi-grid">
+            <section className="panel">
+              <h2>Why AQI matters</h2>
+              <p>
+                Monitoring AQI helps protect children, seniors, and people with asthma or heart disease.
+                The dashboard connects live and forecast data from trusted sources and highlights the pollutants
+                that most often affect human health.
+              </p>
+              <div className="metric-list">
+                {pollutantCards.map((pollutant) => (
+                  <article className="metric-card" key={pollutant.name}>
+                    <h3>{pollutant.name}</h3>
+                    <p>{pollutant.detail}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="panel">
+              <h2>How the AQI scale works</h2>
+              <div className="level-list">
+                {aqiLevels.map((item) => (
+                  <article className={`level-card ${item.color}`} key={item.level}>
+                    <div className="level-head">
+                      <h3>{item.level}</h3>
+                      <span>{item.range}</span>
+                    </div>
+                    <p>{item.description}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="panel">
+              <h2>Health guidance</h2>
+              <ul className="tips-list">
+                {healthTips.map((tip) => (
+                  <li key={tip}>{tip}</li>
+                ))}
+              </ul>
+            </section>
+          </main>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
