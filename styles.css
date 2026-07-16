@@ -69,7 +69,6 @@ body {
     background: rgba(15, 23, 42, 0.78);
     border: 1px solid var(--border);
     width: fit-content;
-    backdrop-filter: blur(10px);
 }
 
 .navbar a {
@@ -232,7 +231,6 @@ body {
     border: 1px solid var(--border);
     border-radius: 22px;
     box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28);
-    backdrop-filter: blur(12px);
 }
 
 .research-header {
